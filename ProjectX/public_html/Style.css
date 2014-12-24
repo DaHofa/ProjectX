@@ -1,3 +1,12 @@
 body {
-  color: blue
+  color: blue;
+  font-size: xx-large;
+  font-weight: bolder;
+  background: url(transition.png) repeat;
+}
+#circle {
+  width: 100px;
+  height: 100px;
+  background: cyan;
+  border-radius: 50%;
 }
