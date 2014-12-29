@@ -95,12 +95,39 @@ Game.Launch = function ()
         /*
          * Call functions Here
          */
-    }
-    ;
-
-    /*
+        Game.loop();
+    };
+    
+     /*
      * Insert functions here
      */
+
+    Game.loop = function(){
+        
+        /*
+         * Insert Account update
+         */
+        
+        Game.draw();
+        
+        window.setTimeout(Game.Loop,1000/Game.fps);
+    };
+    
+    Game.draw = function(){
+        Game.drawBackground();
+        
+        /*
+         * Insert Drawing Account, etc.
+         */
+        
+    }
+
+    Game.drawBackground = function(){
+        
+        /*
+         * redraw the background
+         */
+    }
 
 
 };
