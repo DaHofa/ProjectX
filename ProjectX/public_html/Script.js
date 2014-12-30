@@ -14,12 +14,12 @@ function AssetManager() {
     this.downloadQueue = [];
     this.nLoaded = 0;
 
-    this.prototype.queueDownload = function (path) {
+    AssetManager.prototype.queueDownload = function (path) {
         this.downloadQueue.push(path);
     };
 
     //argument is callback function, which calls the remaining code
-    this.prototype.downloadAll = function (downloadCallback) {
+    AssetManager.prototype.downloadAll = function (downloadCallback) {
         if (this.downloadQueue.length === 0) {
             downloadCallback();
         }
@@ -44,11 +44,11 @@ function AssetManager() {
         }
     };
 
-    this.prototype.isDone = function () {
+    AssetManager.prototype.isDone = function () {
         return (this.downloadQueue.length === this.successCount + this.errorCount);
     };
 
-    this.prototype.getAsset = function (path) {
+    AssetManager.prototype.getAsset = function (path) {
         return this.cache[path];
     };
 
@@ -59,75 +59,119 @@ function AssetManager() {
 }
 
 
+/*
+ * Helper function for adding an Event
+ * @param {DOM Element} element
+ * @param {Handler} handler
+ * @param {Function} func
+ * @returns {undefined}
+ */
+addHandler = function (element, handler, func)
+{
+    if (navigator.userAgent.match(/MSIE/))
+    {
+        element.attachEvent('on' + handler, func);
+    }
+    else
+    {
+        element.addEventListener(handler, func, false);
+    }
+};
+
+/*
+ * 
+ * @param {id} ID
+ * @returns {Element}
+ */
+getElem = function (ID) {
+    return document.getElementById(ID);
+};
 
 
 
+/*
+ * Game class
+ * @type type The Game
+ */
 Game = {};
 
 /*
  * Initialize
  */
-Game.Launch = function ()
+Game.launch = function ()
 {
     Game.version = 0.01;
     Game.fps = 30;
 
     Game.ready = false;
 
-    Game.Load = function ()
+    Game.load = function ()
     {
 
         //Create AssetManager
         Game.assManager = new AssetManager();
 
         //assetManager.queueDownload('img/'); add if pictures are available
-        Game.assManager.downloadAll(Game.init());
+        Game.assManager.downloadAll(Game.init);
     };
-    Game.init = function (){
+    Game.init = function () {
         Game.Account = 0;
         Game.ready = true;
-        
+
         /*
          * Add Game variables here
          */
-        
+
         //--------------------------------------------------------------------- 
         /*
          * Call functions Here
          */
-        Game.loop();
+        addHandler(getElem("CoreFlower"), "click", Game.clickFlower);
+        setInterval(Game.loop, 1000 / Game.fps);
+        
     };
-    
-     /*
+
+    /*
      * Insert functions here
      */
 
-    Game.loop = function(){
-        
+    Game.clickFlower = function (event)
+    {
+        if (event)
+            event.preventDefault();
+
+        Game.Account++;
+    };
+
+
+    Game.loop = function () {
+
         /*
          * Insert Account update
          */
-        
+
+
+        //Draw the frame at the end
         Game.draw();
-        
-        window.setTimeout(Game.Loop,1000/Game.fps);
     };
-    
-    Game.draw = function(){
+
+    Game.draw = function () {
+        //first draw background
         Game.drawBackground();
-        
+
         /*
          * Insert Drawing Account, etc.
          */
-        
-    }
+        getElem("Counter").innerHTML = Game.Account + " X";
 
-    Game.drawBackground = function(){
-        
+    };
+
+    Game.drawBackground = function () {
+
         /*
          * redraw the background
          */
-    }
+    };
 
 
 };
@@ -137,14 +181,14 @@ Game.Launch = function ()
 /*
  * Launch
  */
-Game.Launch();
+Game.launch();
 
 window.onload = function ()
 {
 
     if (!Game.ready)
     {
-        Game.Load();
+        Game.load();
     }
 
 };

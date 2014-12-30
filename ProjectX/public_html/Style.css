@@ -2,7 +2,7 @@ body {
     color: blue
 }
 
-.MainPage {
+#MainPage {
     position: absolute;
 
     left:0;
@@ -13,7 +13,7 @@ body {
     background-color: yellow;
 }
 
-.LinkBar {
+#LinkBar {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -24,7 +24,7 @@ body {
     min-height: 30px;
 }
 
-.MainPage .MainGame {
+#MainGame {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -36,7 +36,7 @@ body {
 
 }
 
-.MainPage .OptionsSide {
+#OptionsSide {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -46,13 +46,13 @@ body {
     min-width: 60px;
 }
 
-.FlowerCenter {
+#FlowerCenter {
     position: absolute;
     left: 50%;
     top: 30%;
 }
 
-.MainGame .Counter{
+#Counter{
     position: absolute;
     left: 80%;
     top: 5%;
@@ -60,7 +60,7 @@ body {
     height: 1.5cm;
 }
 
-.CoreFlower{
+#CoreFlower{
     left: -2cm;
     top:-2cm;
     width: 4cm;
