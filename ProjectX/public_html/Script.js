@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 //Game Asset loading system 
 //http://www.html5rocks.com/en/tutorials/games/assetmanager/?redirect_from_locale=de
 
@@ -57,7 +59,9 @@ function AssetManager() {
         return (1 - (this.errorCount + this.successCount) / this.downloadQueue.length);
     };
 }
-
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//Helper functions
 
 /*
  * Helper function for adding an Event
@@ -79,16 +83,17 @@ addHandler = function (element, handler, func)
 };
 
 /*
- * 
+ * Returns the element for a given ID, i.e. shortcut function
  * @param {id} ID
- * @returns {Element}
+ * @returns {Element} the element with the id ID
  */
 getElem = function (ID) {
     return document.getElementById(ID);
 };
 
-
-
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//The main Game class
 /*
  * Game class
  * @type type The Game
@@ -128,7 +133,7 @@ Game.launch = function ()
          */
         addHandler(getElem("CoreFlower"), "click", Game.clickFlower);
         setInterval(Game.loop, 1000 / Game.fps);
-        
+
     };
 
     /*
@@ -177,12 +182,14 @@ Game.launch = function ()
 };
 
 
-
-/*
- * Launch
- */
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//Finished defininiton. Initialize
 Game.launch();
 
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//Finished initiaizaiton. Start the game.
 window.onload = function ()
 {
 
