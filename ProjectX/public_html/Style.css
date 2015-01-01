@@ -54,9 +54,9 @@ body {
 
 #Counter{
     position: absolute;
-    left: 80%;
+    left: 90%;
     top: 5%;
-    width: 5cm;
+    width: 3cm;
     height: 1.5cm;
 }
 
@@ -68,5 +68,23 @@ body {
     
     border-radius: 50%;
     background-color: #eae707;
-    // TODO: insert picture
+    /* TODO: insert picture */
+}
+
+#Version {
+    position: absolute;
+    left: 90%;
+    top: 90%;
+        
+    width: 3cm;
+    height: 1.5cm;
+}
+
+#FPS {
+    position: absolute;
+    left: 10%;
+    top: 5%;
+        
+    width: 3cm;
+    height: 1.5cm;
 }

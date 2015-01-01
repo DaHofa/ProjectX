@@ -59,6 +59,38 @@ function AssetManager() {
         return (1 - (this.errorCount + this.successCount) / this.downloadQueue.length);
     };
 }
+
+
+
+function FpsController(fps){
+    
+    var that  = this;
+    this.fps = fps;
+    this.fpsCounter=0;
+       
+    this.resetCount = function(){
+        that.fpsCounter=0;
+    };
+    
+    this.countFrame = function(){
+        that.fpsCounter++;
+    };
+    
+    this.displayFps = function(){
+        getElem("FPS").innerHTML = "fps: "+ that.fpsCounter +"/"+that.fps;
+        that.resetCount();
+       //this.fpsCounter=0;
+    };
+    
+    this.startCount = function(){
+        that.loop = window.setInterval(that.displayFps,1000);
+    };
+    
+    this.stopCount = function(){
+        window.clearInterval(that.loop);
+    };
+}
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //Helper functions
@@ -91,6 +123,8 @@ getElem = function (ID) {
     return document.getElementById(ID);
 };
 
+
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //The main Game class
@@ -107,12 +141,15 @@ Game.launch = function ()
 {
     Game.version = 0.01;
     Game.fps = 30;
+    
 
     Game.ready = false;
 
     Game.load = function ()
     {
-
+        //Create FPS Controller
+        Game.FpsController = new FpsController(Game.fps);
+        
         //Create AssetManager
         Game.assManager = new AssetManager();
 
@@ -132,8 +169,9 @@ Game.launch = function ()
          * Call functions Here
          */
         addHandler(getElem("CoreFlower"), "click", Game.clickFlower);
+        
+        Game.FpsController.startCount();
         setInterval(Game.loop, 1000 / Game.fps);
-
     };
 
     /*
@@ -150,7 +188,7 @@ Game.launch = function ()
 
 
     Game.loop = function () {
-
+        
         /*
          * Insert Account update
          */
@@ -158,6 +196,7 @@ Game.launch = function ()
 
         //Draw the frame at the end
         Game.draw();
+        Game.FpsController.countFrame();
     };
 
     Game.draw = function () {
@@ -168,7 +207,8 @@ Game.launch = function ()
          * Insert Drawing Account, etc.
          */
         getElem("Counter").innerHTML = Game.Account + " X";
-
+        getElem("Version").innerHTML = "v. " + Game.version;
+        
     };
 
     Game.drawBackground = function () {
