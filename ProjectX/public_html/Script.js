@@ -10,53 +10,62 @@
 //http://www.html5rocks.com/en/tutorials/games/assetmanager/?redirect_from_locale=de
 
 function AssetManager() {
-    this.successCount = 0;
-    this.errorCount = 0;
-    this.cache = {};
-    this.downloadQueue = [];
-    this.nLoaded = 0;
 
-    AssetManager.prototype.queueDownload = function (path) {
-        this.downloadQueue.push(path);
+    //private variables ad functions
+    var that = this;
+
+    var downloadQueue = [];
+    var cache = {};
+    var successCount = 0;
+    var errorCount = 0;
+
+    function isDone() {
+        return (downloadQueue.length === successCount + errorCount);
+    }
+
+
+    //public functions
+    this.queueDownload = function (path) {
+        downloadQueue.push(path);
     };
 
     //argument is callback function, which calls the remaining code
-    AssetManager.prototype.downloadAll = function (downloadCallback) {
-        if (this.downloadQueue.length === 0) {
+    this.downloadAll = function (downloadCallback) {
+        if (downloadQueue.length === 0) {
             downloadCallback();
         }
-        for (var i = 0; i < this.downloadQueue.length; i++) {
-            var path = this.downloadQueue[i];
+        for (var i = 0; i < downloadQueue.length; i++) {
+            var path = downloadQueue[i];
             var img = new Image();
-            var that = this;
-            img.addEventListener("load", function () {
-                that.successCount += 1;
-                if (that.isDone()) {
+
+            addHandler(img, "load", function () {
+                successCount += 1;
+                if (isDone()) {
                     downloadCallback();
                 }
-            }, false);
-            img.addEventListener("error", function () {
-                that.errorCount += 1;
-                if (that.isDone()) {
+            });
+
+            addHandler(img, "error", function () {
+                errorCount += 1;
+                if (isDone()) {
                     downloadCallback();
                 }
-            }, false);
+            });
+
             img.src = path;
-            this.cache[path] = img;
+            cache[path] = img;
         }
     };
 
-    AssetManager.prototype.isDone = function () {
-        return (this.downloadQueue.length === this.successCount + this.errorCount);
-    };
 
-    AssetManager.prototype.getAsset = function (path) {
-        return this.cache[path];
+
+    this.getAsset = function (path) {
+        return cache[path];
     };
 
     this.getProgress = function ()
     {
-        return (1 - (this.errorCount + this.successCount) / this.downloadQueue.length);
+        return (1 - (errorCount + successCount) / downloadQueue.length);
     };
 }
 
