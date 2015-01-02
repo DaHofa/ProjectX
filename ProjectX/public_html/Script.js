@@ -60,34 +60,56 @@ function AssetManager() {
     };
 }
 
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//FPS Controlling class
 
+function FpsController(fps) {
 
-function FpsController(fps){
-    
-    var that  = this;
-    this.fps = fps;
-    this.fpsCounter=0;
-       
-    this.resetCount = function(){
-        that.fpsCounter=0;
-    };
-    
-    this.countFrame = function(){
-        that.fpsCounter++;
-    };
-    
-    this.displayFps = function(){
-        getElem("FPS").innerHTML = "fps: "+ that.fpsCounter +"/"+that.fps;
+    //private functions and variables
+    var that = this;
+    var fpsCounter = 0;
+    var loop = '';
+
+    function displayFps() {
+        getElem("FPS").innerHTML = "fps: " + fpsCounter + "/" + that.fps;
         that.resetCount();
-       //this.fpsCounter=0;
+    }
+
+    //public functions and variables
+    this.fps = fps;
+
+    /*
+     * Call this to reset the counter (is done automatically, but is made public
+     * if required
+     * @returns {undefined}
+     */
+    this.resetCount = function () {
+        fpsCounter = 0;
     };
-    
-    this.startCount = function(){
-        that.loop = window.setInterval(that.displayFps,1000);
+
+    /*
+     * Call this in each frame, increases the counter.
+     * @returns {undefined}
+     */
+    this.countFrame = function () {
+        fpsCounter++;
     };
-    
-    this.stopCount = function(){
-        window.clearInterval(that.loop);
+
+    /*
+     * Call this to start FPS displaying and updating
+     * @returns {undefined}
+     */
+    this.startCount = function () {
+        loop = window.setInterval(displayFps, 1000);
+    };
+
+    /*
+     * Call this to stop FPS displaying
+     * @returns {undefined}
+     */
+    this.stopCount = function () {
+        window.clearInterval(loop);
     };
 }
 
@@ -141,7 +163,7 @@ Game.launch = function ()
 {
     Game.version = 0.01;
     Game.fps = 30;
-    
+
 
     Game.ready = false;
 
@@ -149,7 +171,7 @@ Game.launch = function ()
     {
         //Create FPS Controller
         Game.FpsController = new FpsController(Game.fps);
-        
+
         //Create AssetManager
         Game.assManager = new AssetManager();
 
@@ -169,7 +191,7 @@ Game.launch = function ()
          * Call functions Here
          */
         addHandler(getElem("CoreFlower"), "click", Game.clickFlower);
-        
+
         Game.FpsController.startCount();
         setInterval(Game.loop, 1000 / Game.fps);
     };
@@ -188,7 +210,7 @@ Game.launch = function ()
 
 
     Game.loop = function () {
-        
+
         /*
          * Insert Account update
          */
@@ -208,7 +230,7 @@ Game.launch = function ()
          */
         getElem("Counter").innerHTML = Game.Account + " X";
         getElem("Version").innerHTML = "v. " + Game.version;
-        
+
     };
 
     Game.drawBackground = function () {
